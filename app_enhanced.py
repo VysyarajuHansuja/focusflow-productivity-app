@@ -12,6 +12,8 @@ load_dotenv()
 from ai_generator import (generate_question,generate_task_suggestions,is_online)
 import time
 import os
+from init_db import init_database
+init_database()
 # ✅ Mobile-friendly page config
 st.set_page_config(
     page_title="Smart Task Manager",
@@ -19,6 +21,7 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="auto",
 )
+
 st.markdown("""
 <style>
 /* Main app padding */
