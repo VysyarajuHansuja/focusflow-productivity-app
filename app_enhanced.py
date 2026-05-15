@@ -488,7 +488,7 @@ else:
             placeholder="Add detailed notes about this task..."
         )
         uploaded_file = st.file_uploader(
-            if uploaded_file:
+        if uploaded_file:
                 os.makedirs(
                     "uploads",
                     exist_ok=True
