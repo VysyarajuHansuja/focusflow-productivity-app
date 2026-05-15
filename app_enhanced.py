@@ -488,6 +488,16 @@ else:
             placeholder="Add detailed notes about this task..."
         )
         uploaded_file = st.file_uploader(
+            if uploaded_file:
+                os.makedirs(
+                    "uploads",
+                    exist_ok=True
+                )
+                attachment_path = (
+                    f"uploads/{uploaded_file.name}"
+                )
+                with open(attachment_path,"wb") as f:
+                    f.write(uploaded_file.getbuffer())
             "📎 Attach File",
             type=["pdf", "png", "jpg", "jpeg", "txt", "docx"]
         )
@@ -523,8 +533,8 @@ else:
                         "uploads",
                         uploaded_file.name
                     )
-                    with open(attachment_path, "wb") as f:
-                        f.write(uploaded_file.getbuffer())
+                    # with open(attachment_path, "wb") as f:
+                    #     f.write(uploaded_file.getbuffer())
                 manager.add_task(user[0], task, description, priority, category, time, deadline, attachment_path, is_daily, start_time, end_time)
                 st.success("✅ Task added successfully!")
                 st.balloons()
