@@ -488,19 +488,31 @@ else:
             placeholder="Add detailed notes about this task..."
         )
         uploaded_file = st.file_uploader(
-        if uploaded_file:
-                os.makedirs(
-                    "uploads",
-                    exist_ok=True
-                )
-                attachment_path = (
-                    f"uploads/{uploaded_file.name}"
-                )
-                with open(attachment_path,"wb") as f:
-                    f.write(uploaded_file.getbuffer())
             "📎 Attach File",
             type=["pdf", "png", "jpg", "jpeg", "txt", "docx"]
         )
+        
+        attachment_path = None
+        
+        if uploaded_file:
+        
+            os.makedirs(
+                "uploads",
+                exist_ok=True
+            )
+        
+            attachment_path = (
+                f"uploads/{uploaded_file.name}"
+            )
+        
+            with open(
+                attachment_path,
+                "wb"
+            ) as f:
+        
+                f.write(
+                    uploaded_file.getbuffer()
+                )
         col1, col2 = st.columns(2)
         with col1:
             priority = st.selectbox("🎯 Priority", ["High", "Medium", "Low"])
