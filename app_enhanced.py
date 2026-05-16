@@ -1,3 +1,5 @@
+from apscheduler.schedulers.background import (BackgroundScheduler)
+from reminder_service import (check_reminders)
 from dotenv import load_dotenv
 import streamlit as st
 import pandas as pd
@@ -12,8 +14,18 @@ load_dotenv()
 from ai_generator import (generate_question,generate_task_suggestions,is_online)
 import time
 import os
+from telegram_utils import (send_telegram_message)
 from init_db import init_database
 init_database()
+if "scheduler_started" not in st.session_state:
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(
+        check_reminders,
+        "interval",
+        seconds=60
+    )
+    scheduler.start()
+    st.session_state.scheduler_started = True
 # ✅ Mobile-friendly page config
 st.set_page_config(
     page_title="Smart Task Manager",
@@ -256,6 +268,25 @@ else:
         )
     global_search = st.sidebar.text_input("🔍 Quick Search",placeholder="Search tasks...")
     st.sidebar.markdown("## 🚀 Navigation")
+    from telegram_utils import (
+        send_telegram_message
+    )
+
+    if st.sidebar.button(
+        "📨 Test Telegram Alert"
+    ):
+
+        send_telegram_message(
+
+            "🚨 FocusFlow Test Alert!\n\n"
+
+            "Telegram notifications "
+            "are working successfully ✅"
+        )
+
+        st.sidebar.success(
+            "Test alert sent!"
+        )
     page = st.sidebar.radio(
         "📍 Navigation",
         options=pages,
@@ -524,7 +555,14 @@ else:
             time = st.number_input("⏱️ Hours Needed", min_value=1, value=2)
         
         deadline = st.date_input("📅 Deadline", min_value=datetime.date.today())
-        
+        deadline_time = st.time_input("⏰ Submission Time")
+        deadline_datetime = datetime.datetime.combine(deadline,deadline_time)
+        reminder_time = (deadline_datetime
+                        - datetime.timedelta(hours=time))
+        st.info(
+            f"🚨 Reminder will trigger at:\n\n"
+            f"{reminder_time.strftime('%d %b %Y %I:%M %p')}"
+        )
         is_daily = st.checkbox("🔄 Make this a daily task")
         
         start_time = None
@@ -547,7 +585,7 @@ else:
                     )
                     # with open(attachment_path, "wb") as f:
                     #     f.write(uploaded_file.getbuffer())
-                manager.add_task(user[0], task, description, priority, category, time, deadline, attachment_path, is_daily, start_time, end_time)
+                manager.add_task(user[0], task, description, priority, category, time, deadline,str(reminder_time), attachment_path, is_daily, start_time, end_time)
                 st.success("✅ Task added successfully!")
                 st.balloons()
             else:
