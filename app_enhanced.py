@@ -716,9 +716,8 @@ else:
                                     manager.complete_task(task['id'])
                                     st.rerun()
                         with col3:
-                            if st.button("🗑️", key=f"delete_{task['id']}"):
-                                # You'll need to add delete_task to backend.py
-                                if st.button("🗑️", key=f"delete_{task['id']}"):
+                            
+                                if st.button("🗑️", key=f"task_delete_{task['id']}"):
                                     manager.delete_task(task["id"])
                                     st.success("Task deleted!")
                                     st.rerun()
