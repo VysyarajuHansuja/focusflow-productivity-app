@@ -15,7 +15,16 @@ def init_database():
         email TEXT
     )
     """)
+    try:
     
+        cur.execute(
+            "ALTER TABLE tasks "
+            "ADD COLUMN reminder_time TEXT"
+        )
+    
+    except:
+    
+        pass
     # TASKS
     cur.execute("""
     CREATE TABLE IF NOT EXISTS tasks(
