@@ -7,3 +7,4 @@ google-generativeai
 streamlit-calendar
 numpy
 requests
+apscheduler
