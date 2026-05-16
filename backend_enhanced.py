@@ -4,14 +4,14 @@ from datetime import datetime, timedelta
 
 class TaskManager:
 
-    def add_task(self, user_id, task, description, priority, category, time, deadline,attachment="",
+    def add_task(self, user_id, task, description, priority, category, time, deadline,reminder_time,attachment="",
              is_daily=False, start_time=None, end_time=None):
         conn = connect_db()
         cur = conn.cursor()
         cur.execute("""
         INSERT INTO tasks(user_id, task, description, priority, category, estimated_time,
-        deadline,attachment, status, is_daily, start_time, end_time)
-        VALUES(?,?,?,?,?,?,?,?,'Pending',?,?,?)
+        deadline,reminder_time,attachment, status, is_daily, start_time, end_time)
+        VALUES(?,?,?,?,?,?,?,?,?,'Pending',?,?,?)
         """, (user_id, task, description, priority, category, time, deadline,
             attachment, is_daily, start_time, end_time))
         conn.commit()
