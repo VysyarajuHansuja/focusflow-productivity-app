@@ -1,5 +1,5 @@
-from apscheduler.schedulers.background import (BackgroundScheduler)
-from reminder_service import (check_reminders)
+# from apscheduler.schedulers.background import (BackgroundScheduler)
+# from reminder_service import (check_reminders)
 from dotenv import load_dotenv
 import streamlit as st
 import pandas as pd
@@ -33,7 +33,21 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="auto",
 )
+from reminder_service import (
+    check_reminders
+)
 
+query_params = st.query_params
+
+if query_params.get("trigger") == "reminders":
+
+    check_reminders()
+
+    st.success(
+        "Reminder check completed!"
+    )
+
+    st.stop()
 st.markdown("""
 <style>
 /* Main app padding */
