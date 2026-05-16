@@ -7,7 +7,9 @@ from telegram_utils import (
     send_telegram_message
 )
 
-
+from email_utils import (
+    send_email
+)
 def check_reminders():
 
     conn = connect_db()
@@ -63,7 +65,7 @@ def check_reminders():
         )
 
         if time_diff <= 60:
-
+            
             send_telegram_message(
 
                 f"🚨 FocusFlow Reminder\n\n"
@@ -76,3 +78,46 @@ def check_reminders():
 
                 f"You should start NOW ✅"
             )
+            conn = connect_db()
+            
+            user_df = pd.read_sql(
+            
+                "SELECT email FROM users WHERE id=?",
+            
+                conn,
+            
+                params=(row["user_id"],)
+            )
+            
+            conn.close()
+            
+            if not user_df.empty:
+            
+                user_email = (
+                    user_df.iloc[0]["email"]
+                )
+            
+                subject = (
+                    "🚨 FocusFlow Reminder"
+                )
+            
+                body = f"""
+            
+            Task: {row['task']}
+            
+            Priority: {row['priority']}
+            
+            Deadline: {row['deadline']}
+            
+            You should start working now
+            to complete this task before
+            the deadline.
+            
+            Stay productive ✅
+            """
+            
+                send_email(
+                    user_email,
+                    subject,
+                    body
+                )
