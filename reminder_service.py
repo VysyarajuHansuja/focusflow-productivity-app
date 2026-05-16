@@ -24,10 +24,11 @@ def check_reminders():
     for _, row in df.iterrows():
 
         reminder_value = row.get(
-            "reminder_time"
+            "reminder_time",
+            None
         )
 
-        if pd.isna(reminder_value):
+        if reminder_value is None:
 
             continue
 
@@ -35,7 +36,11 @@ def check_reminders():
             reminder_value
         ).strip()
 
-        if not reminder_value:
+        if (
+            reminder_value == ""
+            or reminder_value.lower() == "none"
+            or reminder_value.lower() == "nan"
+        ):
 
             continue
 
@@ -47,7 +52,7 @@ def check_reminders():
                 )
             )
 
-        except:
+        except Exception:
 
             continue
 
