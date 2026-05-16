@@ -17,15 +17,15 @@ import os
 from telegram_utils import (send_telegram_message)
 from init_db import init_database
 init_database()
-if "scheduler_started" not in st.session_state:
-    scheduler = BackgroundScheduler()
-    scheduler.add_job(
-        check_reminders,
-        "interval",
-        seconds=60
-    )
-    scheduler.start()
-    st.session_state.scheduler_started = True
+# if "scheduler_started" not in st.session_state:
+#     scheduler = BackgroundScheduler()
+#     scheduler.add_job(
+#         check_reminders,
+#         "interval",
+#         seconds=60
+#     )
+#     scheduler.start()
+#     st.session_state.scheduler_started = True
 # ✅ Mobile-friendly page config
 st.set_page_config(
     page_title="Smart Task Manager",
