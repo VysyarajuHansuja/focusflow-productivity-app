@@ -27,6 +27,7 @@ def init_database():
         priority TEXT,
         estimated_time INTEGER,
         deadline TEXT,
+        reminder_time TEXT,
         attachment TEXT,
         status TEXT,
         is_daily INTEGER,
