@@ -23,12 +23,16 @@ def check_reminders():
 
     for _, row in df.iterrows():
 
-        if not row["reminder_time"]:
-
+        if (
+            "reminder_time" not in row
+            or pd.isna(row["reminder_time"])
+            or not row["reminder_time"]
+        ):
+        
             continue
 
         reminder_time = datetime.datetime.fromisoformat(
-            row["reminder_time"]
+            str(row["reminder_time"])
         )
 
         time_diff = abs(
