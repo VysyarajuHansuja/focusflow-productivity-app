@@ -12,7 +12,7 @@ class TaskManager:
         INSERT INTO tasks(user_id, task, description, priority, category, estimated_time,
         deadline,reminder_time,attachment, status, is_daily, start_time, end_time)
         VALUES(?,?,?,?,?,?,?,?,?,'Pending',?,?,?)
-        """, (user_id, task, description, priority, category, time, deadline,
+        """, (user_id, task, description, priority, category, time, deadline,reminder_time,
             attachment, is_daily, start_time, end_time))
         conn.commit()
         conn.close()
