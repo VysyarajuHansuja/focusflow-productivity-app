@@ -599,7 +599,7 @@ else:
                     )
                     # with open(attachment_path, "wb") as f:
                     #     f.write(uploaded_file.getbuffer())
-                manager.add_task(user[0], task, description, priority, category, time, deadline,str(reminder_time), attachment_path, is_daily, start_time, end_time)
+                manager.add_task(user[0], task, description, priority, category, time, deadline,str(reminder_time), attachment_path, is_daily, str(start_time), str(end_time))
                 st.success("✅ Task added successfully!")
                 st.balloons()
             else:
